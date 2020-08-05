@@ -311,6 +311,8 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                     shapes[i] = [1, 1 / mini]
 
             self.batch_shapes = np.ceil(np.array(shapes) * img_size / 32.).astype(np.int) * 32
+            # print('============================================================================')
+            # print('============================================================================', self.batch_shapes)
 
         # Preload labels (required for weighted CE training)
         self.imgs = [None] * n
@@ -410,7 +412,8 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
         img_path = self.img_files[index]
         label_path = self.label_files[index]
 
-        mosaic = True and self.augment  # load 4 images at a time into a mosaic (only during training)
+        mosaic = False and self.augment  # load 4 images at a time into a mosaic (only during training)
+
         if mosaic:
             # Load mosaic
             img, labels = load_mosaic(self, index)
