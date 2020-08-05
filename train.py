@@ -83,8 +83,8 @@ def train():
     for f in glob.glob('*_batch*.jpg') + glob.glob(results_file):
         os.remove(f)
 
-    # Initialize model
-    model = Darknet(cfg, (img_size, img_size), arc=opt.arc).to(device)
+    # Initialize model  img size (height, width)
+    model = Darknet(cfg, (192, 320), arc=opt.arc).to(device)
     if t_cfg:
         t_model = Darknet(t_cfg, (img_size, img_size), arc=opt.arc).to(device)
 
