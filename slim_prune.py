@@ -12,18 +12,18 @@ import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3.cfg', help='cfg file path')
-    parser.add_argument('--data', type=str, default='data/coco.data', help='*.data file path')
+    parser.add_argument('--cfg', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg', help='cfg file path')
+    parser.add_argument('--data', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data', help='*.data file path')
     parser.add_argument('--weights', type=str, default='weights/last.pt', help='sparse model weights')
-    parser.add_argument('--global_percent', type=float, default=0.8, help='global channel prune percent')
+    parser.add_argument('--global_percent', type=float, default=0.66, help='global channel prune percent')
     parser.add_argument('--layer_keep', type=float, default=0.01, help='channel keep percent per layer')
-    parser.add_argument('--img_size', type=int, default=416, help='inference size (pixels)')
+    parser.add_argument('--img_size', type=int, default=320, help='inference size (pixels)')
     opt = parser.parse_args()
     print(opt)
 
     img_size = opt.img_size
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = Darknet(opt.cfg, (img_size, img_size)).to(device)
+    model = Darknet(opt.cfg, (192, 320)).to(device)
 
     if opt.weights.endswith(".pt"):
         model.load_state_dict(torch.load(opt.weights, map_location=device)['model'])
@@ -145,13 +145,14 @@ if __name__ == '__main__':
         compact_module_defs[idx]['filters'] = str(CBLidx2filters[idx])
 
 
-    compact_model = Darknet([model.hyperparams.copy()] + compact_module_defs, (img_size, img_size)).to(device)
+    compact_model = Darknet([model.hyperparams.copy()] + compact_module_defs, (192, 320)).to(device)
     compact_nparameters = obtain_num_parameters(compact_model)
 
     init_weights_from_loose_model(compact_model, pruned_model, CBL_idx, Conv_idx, CBLidx2mask)
 
 
-    random_input = torch.rand((1, 3, img_size, img_size)).to(device)
+    # TODO ????
+    random_input = torch.rand((1, 3, 192, 320)).to(device)
 
     def obtain_avg_forward_time(input, model, repeat=200):
 
@@ -184,11 +185,16 @@ if __name__ == '__main__':
 
 
 
-    pruned_cfg_name = opt.cfg.replace('/', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_')
+    # pruned_cfg_name = opt.cfg.replace('/', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_')
+    import os
+
+    pruned_cfg_name = '/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1' + f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.cfg'
+    # pruned_cfg_name = os.path.join('./cfg', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.cfg')
     pruned_cfg_file = write_cfg(pruned_cfg_name, [model.hyperparams.copy()] + compact_module_defs)
     print(f'Config file has been saved: {pruned_cfg_file}')
 
-    compact_model_name = opt.weights.replace('/', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_')
+    # compact_model_name = opt.weights.replace('/', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_')
+    compact_model_name = '/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1' + f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.weights'
     if compact_model_name.endswith('.pt'):
         compact_model_name = compact_model_name.replace('.pt', '.weights')
     save_weights(compact_model, path=compact_model_name)

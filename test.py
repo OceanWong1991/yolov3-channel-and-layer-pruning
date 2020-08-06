@@ -25,7 +25,7 @@ def test(cfg,
         verbose = True
 
         # Initialize model
-        model = Darknet(cfg, img_size).to(device)
+        model = Darknet(cfg, (192, 320)).to(device)
 
         # Load weights
         attempt_download(weights)

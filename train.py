@@ -501,7 +501,7 @@ def prebias():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int, default=300)  # 500200 batches at bs 16, 117263 images = 273 epochs
+    parser.add_argument('--epochs', type=int, default=600)  # 500200 batches at bs 16, 117263 images = 273 epochs
     parser.add_argument('--batch-size', type=int, default=128)  # effective bs = batch_size * accumulate = 16 * 4 = 64
     parser.add_argument('--accumulate', type=int, default=2, help='batches to accumulate before optimizing')
     parser.add_argument('--cfg', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg', help='cfg file path')
@@ -519,7 +519,7 @@ if __name__ == '__main__':
     parser.add_argument('--bucket', type=str, default='', help='gsutil bucket')
     parser.add_argument('--img-weights', action='store_true', help='select training images by weight')
     parser.add_argument('--cache-images', action='store_false', help='cache images for faster training')
-    parser.add_argument('--weights', type=str, default='/home/ai/data2/xzwang/T7_Train/weights/yolov4-tiny_t7_v4_final.weights', help='initial weights')  # i.e. weights/darknet.53.conv.74
+    parser.add_argument('--weights', type=str, default='/home/ai/DeepGit/yolov3-channel-and-layer-pruning/weights/backup450.pt', help='initial weights')  # i.e. weights/darknet.53.conv.74
     parser.add_argument('--t_weights', type=str, default='', help='teacher model weights')
     parser.add_argument('--arc', type=str, default='defaultpw', help='yolo architecture')  # defaultpw, uCE, uBCE
     parser.add_argument('--prebias', action='store_true', help='transfer-learn yolo biases prior to training')
@@ -529,7 +529,7 @@ if __name__ == '__main__':
     parser.add_argument('--var', type=float, help='debug variable')
     parser.add_argument('--sparsity-regularization', '-sr', dest='sr', action='store_false',
                         help='train with channel sparsity regularization')
-    parser.add_argument('--s', type=float, default=0.001, help='scale sparse rate')
+    parser.add_argument('--s', type=float, default=0.005, help='scale sparse rate')
     parser.add_argument('--prune', type=int, default=1, help='0:nomal prune 1:other prune ')
     
     
