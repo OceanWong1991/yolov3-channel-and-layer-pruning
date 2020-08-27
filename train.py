@@ -501,16 +501,34 @@ def prebias():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    # LCA : epoch : 300, images: 77931; batch size : 128; accumulate : 4
     parser.add_argument('--epochs', type=int, default=600)  # 500200 batches at bs 16, 117263 images = 273 epochs
     parser.add_argument('--batch-size', type=int, default=128)  # effective bs = batch_size * accumulate = 16 * 4 = 64
-    parser.add_argument('--accumulate', type=int, default=2, help='batches to accumulate before optimizing')
-    parser.add_argument('--cfg', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg', help='cfg file path')
-    parser.add_argument('--t_cfg', type=str, default='', help='teacher model cfg file path for knowledge distillation')
+    parser.add_argument('--accumulate', type=int, default=4, help='batches to accumulate before optimizing') # 500200*16*4/117263 = 273
+    parser.add_argument('--cfg', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg',help='cfg file path')
     parser.add_argument('--data', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data', help='*.data file path')
-    # store_true False
-    parser.add_argument('--multi-scale', action='store_true', help='adjust (67% - 150%) img_size every 10 batches')
+    parser.add_argument('--weights', type=str,default='/home/ai/DeepGit/yolov3-channel-and-layer-pruning/weights/backup450.pt', help='initial weights')  # i.e. weights/darknet.53.conv.74
     parser.add_argument('--img_size', type=int, default=320, help='inference size (pixels)')
     parser.add_argument('--rect', action='store_false', help='rectangular training')
+
+    # TODO PRUNE
+    # parser.add_argument('--sparsity-regularization', '-sr', dest='sr', action='store_false', help='train with channel sparsity regularization')
+    # parser.add_argument('--s', type=float, default=0.005, help='scale sparse rate')
+    # parser.add_argument('--prune', type=int, default=1, help='0:nomal prune 1:other prune ')
+
+    # TODO TRAIN
+    parser.add_argument('--sparsity-regularization', '-sr', dest='sr', action='store_true',help='train with channel sparsity regularization')
+    parser.add_argument('--s', type=float, default=0.001, help='scale sparse rate')
+    parser.add_argument('--prune', type=int, default=1, help='0:nomal prune 1:other prune ')
+
+
+
+
+
+    parser.add_argument('--t_cfg', type=str, default='', help='teacher model cfg file path for knowledge distillation')
+
+    # store_true False
+    parser.add_argument('--multi-scale', action='store_true', help='adjust (67% - 150%) img_size every 10 batches')
     parser.add_argument('--resume', action='store_true', help='resume training from last.pt')
     parser.add_argument('--transfer', action='store_true', help='transfer learning')
     parser.add_argument('--nosave', action='store_true', help='only save final checkpoint')
@@ -519,7 +537,6 @@ if __name__ == '__main__':
     parser.add_argument('--bucket', type=str, default='', help='gsutil bucket')
     parser.add_argument('--img-weights', action='store_true', help='select training images by weight')
     parser.add_argument('--cache-images', action='store_false', help='cache images for faster training')
-    parser.add_argument('--weights', type=str, default='/home/ai/DeepGit/yolov3-channel-and-layer-pruning/weights/backup450.pt', help='initial weights')  # i.e. weights/darknet.53.conv.74
     parser.add_argument('--t_weights', type=str, default='', help='teacher model weights')
     parser.add_argument('--arc', type=str, default='defaultpw', help='yolo architecture')  # defaultpw, uCE, uBCE
     parser.add_argument('--prebias', action='store_true', help='transfer-learn yolo biases prior to training')
@@ -527,10 +544,6 @@ if __name__ == '__main__':
     parser.add_argument('--device', default='', help='device id (i.e. 0 or 0,1) or cpu')
     parser.add_argument('--adam', action='store_true', help='use adam optimizer')
     parser.add_argument('--var', type=float, help='debug variable')
-    parser.add_argument('--sparsity-regularization', '-sr', dest='sr', action='store_false',
-                        help='train with channel sparsity regularization')
-    parser.add_argument('--s', type=float, default=0.005, help='scale sparse rate')
-    parser.add_argument('--prune', type=int, default=1, help='0:nomal prune 1:other prune ')
     
     
     opt = parser.parse_args()

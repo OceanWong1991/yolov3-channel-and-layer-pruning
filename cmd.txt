@@ -1,0 +1,11 @@
+
+
+
+python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny_LCA_v7.0.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights /home/ai/DeepGit/darknet/backup_LCA_V7.0/yolov4-tiny_LCA_v7_last.weights --epochs 600 --batch-size 128
+
+
+
+
+
+
+
