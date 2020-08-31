@@ -504,7 +504,7 @@ if __name__ == '__main__':
     # LCA : epoch : 300, images: 77931; batch size : 128; accumulate : 4
     parser.add_argument('--epochs', type=int, default=600)  # 500200 batches at bs 16, 117263 images = 273 epochs
     parser.add_argument('--batch-size', type=int, default=128)  # effective bs = batch_size * accumulate = 16 * 4 = 64
-    parser.add_argument('--accumulate', type=int, default=4, help='batches to accumulate before optimizing') # 500200*16*4/117263 = 273
+    parser.add_argument('--accumulate', type=int, default=2, help='batches to accumulate before optimizing') # 500200*16*4/117263 = 273
     parser.add_argument('--cfg', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg',help='cfg file path')
     parser.add_argument('--data', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data', help='*.data file path')
     parser.add_argument('--weights', type=str,default='/home/ai/DeepGit/yolov3-channel-and-layer-pruning/weights/backup450.pt', help='initial weights')  # i.e. weights/darknet.53.conv.74

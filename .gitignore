@@ -144,3 +144,5 @@ weights/
 .idea/
 data/
 utils/__pycache__/datasets.cpython-36.pyc
+converted.weights
+*.jpg
