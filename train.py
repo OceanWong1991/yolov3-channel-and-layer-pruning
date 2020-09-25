@@ -319,6 +319,8 @@ def train():
 
             # 调整学习率，进行warm up和学习率衰减
             lr = adjust_learning_rate(optimizer, 0.1, epoch, ni, nb)
+            # TODO CHANGE LR finetune
+            # lr = adjust_learning_rate(optimizer, 0.01, epoch, ni, nb)
             if i == 0:
                 print('learning rate:', lr)
 

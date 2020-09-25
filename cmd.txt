@@ -1,11 +1,54 @@
 
 
-
+1. train
 python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny_LCA_v7.0.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights /home/ai/DeepGit/darknet/backup_LCA_V7.0/yolov4-tiny_LCA_v7_last.weights --epochs 600 --batch-size 128
 
-
+2. convert
 python -c "from models import *; convert('cfg/yolov4-tiny_LCA_v7.0.cfg', 'weights/last.pt')"
 
+3.prune
 python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny_LCA_v7.0.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights weights/LCA_EPOCH_50.weights --epochs 300 --batch-size 128 -sr --s 0.006 --prune 1
 
 
+
+
+python train.py --cfg /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.1/prune_0.83_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.1/prune_0.83_keep_0.01_.weights --epochs 300 --batch-size 128
+
+
+
+python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.1/prune_0.83_keep_0.01_.cfg', 'weights/last.pt')"
+
+
+python train.py --cfg /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.1/prune_0.83_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights weights/LCA_EPOCH_50_STAGE2.weights --epochs 300 --batch-size 128 -sr --s 0.006 --prune 1
+
+python train.py --cfg /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.2/prune_0.2_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.2/prune_0.2_keep_0.01_.weights --epochs 300 --batch-size 128
+
+python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.2/prune_0.2_keep_0.01_.cfg', 'weights/last.pt')"
+
+
+python -c "from models import *; convert('/home/ai/DeepGit/darknet/cfg/yolov4-tiny_digger_v1.cfg', 'weights/backup290.pt')"
+
+
+tensorboard --logdir runs
+
+
+python train.py --cfg /home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1/prune_0.7_keep_0.01_.cfg --data /home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data --weights /home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1/prune_0.7_keep_0.01_.weights --epochs 200 --batch-size 128
+
+
+python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.0/yolov3-tiny-fishview-v0.6-320x192.cfg', 'weights/backup290.pt')"
+
+python train.py --cfg /home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1/prune_0.7_keep_0.01_.cfg --data /home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data --weights v4.1/prune_0.7.weights --epochs 200 --batch-size 128 -sr --s 0.006 --prune 1
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.0/yolov3-tiny-fishview-v0.6-320x192.cfg --data /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data --weights weights/last.pt --epochs 300 --batch-size 128
+s
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny_digger_v1.cfg --data /home/ai/DeepGit/darknet/cfg/t7_digger_v1.data --weights weights/PD-V4.1.weights --epochs 300 --batch-size 128
+
+
+CUDA_VISIBLE_DEVICES=0,1 ./darknet detector train cfg/t7_yolov4_pd.data cfg/yolov4-pd.cfg
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny-pd.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights weights/last.pt --epochs 300 --batch-size 128
+CUDA_VISIBLE_DEVICES=1 python train_diff_size.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny-pd.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights /home/ai/data2/xzwang/T7_Train/backup_t7_pd_v4.1/yolov4-tiny-pd_last.weights --epochs 300 --batch-size 128

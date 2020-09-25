@@ -12,10 +12,15 @@ import argparse
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg', help='cfg file path')
+    # /home/ai/data2/xzwang/T7_Train/cfg/yolov4-tiny_t7_v4.0.cfg
+    # /home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data
+
+    # /home/ai/DeepGit/yolov3-channel-and-layer-pruning/LCA_V6.1/prune_0.83_keep_0.01_.cfg
+    # /home/ai/DeepGit/darknet/cfg/LCA-320x192-v0.7.data
+    parser.add_argument('--cfg', type=str, default='/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1/prune_0.7_keep_0.01_.cfg', help='cfg file path')
     parser.add_argument('--data', type=str, default='/home/ai/data2/xzwang/T7_Train/cfg/t7_pd_v4.1.data', help='*.data file path')
     parser.add_argument('--weights', type=str, default='weights/last.pt', help='sparse model weights')
-    parser.add_argument('--global_percent', type=float, default=0.66, help='global channel prune percent')
+    parser.add_argument('--global_percent', type=float, default=0.26, help='global channel prune percent')
     parser.add_argument('--layer_keep', type=float, default=0.01, help='channel keep percent per layer')
     parser.add_argument('--img_size', type=int, default=320, help='inference size (pixels)')
     opt = parser.parse_args()
@@ -188,13 +193,13 @@ if __name__ == '__main__':
     # pruned_cfg_name = opt.cfg.replace('/', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_')
     import os
 
-    pruned_cfg_name = '/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1' + f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.cfg'
+    pruned_cfg_name = '/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.2' + f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.cfg'
     # pruned_cfg_name = os.path.join('./cfg', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.cfg')
     pruned_cfg_file = write_cfg(pruned_cfg_name, [model.hyperparams.copy()] + compact_module_defs)
     print(f'Config file has been saved: {pruned_cfg_file}')
 
     # compact_model_name = opt.weights.replace('/', f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_')
-    compact_model_name = '/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.1' + f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.weights'
+    compact_model_name = '/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.2' + f'/prune_{opt.global_percent}_keep_{opt.layer_keep}_' + '.weights'
     if compact_model_name.endswith('.pt'):
         compact_model_name = compact_model_name.replace('.pt', '.weights')
     save_weights(compact_model, path=compact_model_name)
