@@ -52,3 +52,52 @@ CUDA_VISIBLE_DEVICES=1 python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4
 CUDA_VISIBLE_DEVICES=0,1 ./darknet detector train cfg/t7_yolov4_pd.data cfg/yolov4-pd.cfg
 CUDA_VISIBLE_DEVICES=1 python train.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny-pd.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights weights/last.pt --epochs 300 --batch-size 128
 CUDA_VISIBLE_DEVICES=1 python train_diff_size.py --cfg /home/ai/DeepGit/darknet/cfg/yolov4-tiny-pd.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights /home/ai/data2/xzwang/T7_Train/backup_t7_pd_v4.1/yolov4-tiny-pd_last.weights --epochs 300 --batch-size 128
+
+
+
+
+
+   296/299     7.14G     0.399      0.31    0.0411      0.75         0         0       304       540:  13%|█████████▎                                                              | 18/139 [00:15<01:24,  1.43it/s]Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 65536.0
+   296/299     7.14G     0.405     0.318    0.0324     0.756         0         0        87       540: 100%|███████████████████████████████████████████████████████████████████████| 139/139 [01:38<00:00,  1.41it/s]
+               Class    Images   Targets         P         R       mAP        F1: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 35/35 [00:34<00:00,  1.02it/s]
+                 all  4.43e+03  1.06e+04     0.619     0.972      0.92     0.756
+
+     Epoch   gpu_mem      GIoU       obj       cls     total      soft    rratio   targets  img_size
+  0%|                                                                                                                                                                                       | 0/139 [00:00<?, ?it/s]learning rate: 2.3240000000000004e-05
+   297/299     7.14G     0.404     0.318    0.0233     0.746         0         0        86       540: 100%|███████████████████████████████████████████████████████████████████████| 139/139 [01:38<00:00,  1.41it/s]
+               Class    Images   Targets         P         R       mAP        F1: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 35/35 [00:34<00:00,  1.00it/s]
+                 all  4.43e+03  1.06e+04     0.619     0.972      0.92     0.756
+
+     Epoch   gpu_mem      GIoU       obj       cls     total      soft    rratio   targets  img_size
+  0%|                                                                                                                                                                                       | 0/139 [00:00<?, ?it/s]learning rate: 2.3240000000000004e-05
+   298/299     7.14G     0.404     0.318    0.0197     0.742         0         0        86       540: 100%|███████████████████████████████████████████████████████████████████████| 139/139 [01:38<00:00,  1.42it/s]
+               Class    Images   Targets         P         R       mAP        F1: 100%|█████████████████████████████████████████████████████████████████████████████████████████████| 35/35 [00:34<00:00,  1.01it/s]
+                 all  4.43e+03  1.06e+04     0.619     0.972      0.92     0.756
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.2/PD-V4.1.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.2/PD-V4.1.weights --epochs 300 --batch-size 128
+
+
+
+python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.2/prune_0.3_keep_0.01_.cfg', 'weights/backup290.pt')"
+
+
+
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.2/prune_0.3_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.2/prune_0.3_keep_0.01_.weights --epochs 300 --batch-size 128
+
+python train.py --cfg v4.2/prune_0.3_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights converted.weights --epochs 600 --batch-size 128 -sr --s 0.006 --prune 1
+
+
+
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.3/prune_0.4_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.3/prune_0.4_keep_0.01_.weights --epochs 400 --batch-size 128
+
+
+
+
+
+
+
