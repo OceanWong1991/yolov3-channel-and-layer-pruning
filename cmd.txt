@@ -76,11 +76,11 @@ CUDA_VISIBLE_DEVICES=1 python train_diff_size.py --cfg /home/ai/DeepGit/darknet/
 
 
 
-CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.2/PD-V4.1.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.2/PD-V4.1.weights --epochs 300 --batch-size 128
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.2/PD-V4.1.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.2/PD-V4.1.weights --epochs 400 --batch-size 128
 
 
 
-python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.2/prune_0.3_keep_0.01_.cfg', 'weights/backup290.pt')"
+python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.2/PD-V4.1.cfg', 'weights/backup390.pt')"
 
 
 
@@ -93,11 +93,12 @@ python train.py --cfg v4.2/prune_0.3_keep_0.01_.cfg --data /home/ai/DeepGit/dark
 
 
 
-CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.3/prune_0.4_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.3/prune_0.4_keep_0.01_.weights --epochs 400 --batch-size 128
+CUDA_VISIBLE_DEVICES=1 python train.py --cfg v4.3/prune_0.4_keep_0.01_.cfg --data /home/ai/DeepGit/darknet/cfg/t7_yolov4_pd.data --weights v4.3/prune_0.4_keep_0.01_.pt --epochs 400 --batch-size 128
 
 
 
 
 
 
+python -c "from models import *; convert('/home/ai/DeepGit/yolov3-channel-and-layer-pruning/v4.3/prune_0.4_keep_0.01_.cfg', 'weights/backup360.pt')"
 
